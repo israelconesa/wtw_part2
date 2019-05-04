@@ -9,6 +9,7 @@ public class Main {
     public static void main(String[] args) {
 
         PricingTable pricingTableA = new PricingTable();
+        PricingTable pricingTableB = new PricingTable(pricingTableA);
 
 //        pricingTableA.setVarietyPricesForProduct(1,1,2,3,4);
 
@@ -21,5 +22,6 @@ public class Main {
 //        pricingTableA.setProduct4(whatever);
 
         System.out.println(pricingTableA);
+        System.out.println(pricingTableB);
     }
 }

@@ -5,6 +5,33 @@ import java.util.LinkedList;
 
 public class PricingTable {
 
+    private double exchangeRate = 1.5;
+
+    private double prod1Var1 = 10;
+    private double prod1Var2 = 12;
+    private double prod1Var3 = 14;
+    private double prod1Var4 = 45;
+
+    private double prod2Var1 = 20;
+    private double prod2Var2 = 15;
+    private double prod2Var3 = 24;
+    private double prod2Var4 = 24;
+
+    private double prod3Var1 = 22;
+    private double prod3Var2 = 60;
+    private double prod3Var3 = 33;
+    private double prod3Var4 = 34;
+
+    private double prod4Var1 = 28;
+    private double prod4Var2 = 42;
+    private double prod4Var3 = 43;
+    private double prod4Var4 = 44;
+
+    private double totVar1 = 80;
+    private double totVar2 = 87;
+    private double totVar3 = 38;
+    private double totVar4 = 45;
+
     private LinkedList product1 = new LinkedList();
     private LinkedList product2 = new LinkedList();
     private LinkedList product3 = new LinkedList();
@@ -31,10 +58,10 @@ public class PricingTable {
         return this.total;
     }
 
-    private void setProduct1(int prod1variety1,
-                             int prod1variety2,
-                             int prod1variety3,
-                             int prod1variety4) {
+    private void setProduct1(double prod1variety1,
+                             double prod1variety2,
+                             double prod1variety3,
+                             double prod1variety4) {
         LinkedList product = new LinkedList();
         product.add(0,prod1variety1);
         product.add(1,prod1variety2);
@@ -43,46 +70,46 @@ public class PricingTable {
         this.product1 = product;
     }
 
-    private void setProduct2(int prod2variety1,
-                             int prod2variety2,
-                             int prod2variety3,
-                             int prod2variety4) {
+    private void setProduct2(double prod2variety1,
+                             double prod2variety2,
+                             double prod2variety3,
+                             double prod2variety4) {
         LinkedList product = new LinkedList();
         product.add(0,prod2variety1);
         product.add(1,prod2variety2);
         product.add(2,prod2variety3);
-        product.add(3,prod2variety4);
+        product.add(3,null);
         this.product2 = product;
     }
 
-    private void setProduct3(int prod3variety1,
-                             int prod3variety2,
-                             int prod3variety3,
-                             int prod3variety4) {
+    private void setProduct3(double prod3variety1,
+                             double prod3variety2,
+                             double prod3variety3,
+                             double prod3variety4) {
         LinkedList product = new LinkedList();
         product.add(0,prod3variety1);
         product.add(1,prod3variety2);
-        product.add(2,prod3variety3);
-        product.add(3,prod3variety4);
+        product.add(2,null);
+        product.add(3,null);
         this.product3 = product;
     }
 
-    private void setProduct4(int prod4variety1,
-                             int prod4variety2,
-                             int prod4variety3,
-                             int prod4variety4) {
+    private void setProduct4(double prod4variety1,
+                             double prod4variety2,
+                             double prod4variety3,
+                             double prod4variety4) {
         LinkedList product = new LinkedList();
         product.add(0,prod4variety1);
-        product.add(1,prod4variety2);
-        product.add(2,prod4variety3);
-        product.add(3,prod4variety4);
+        product.add(1,null);
+        product.add(2,null);
+        product.add(3,null);
         this.product4 = product;
     }
 
-    private void setTotal(int totvariety1,
-                             int totvariety2,
-                             int totvariety3,
-                             int totvariety4) {
+    private void setTotal(double totvariety1,
+                             double totvariety2,
+                             double totvariety3,
+                             double totvariety4) {
         LinkedList totals = new LinkedList();
         totals.add(0,totvariety1);
         totals.add(1,totvariety2);
@@ -91,46 +118,40 @@ public class PricingTable {
         this.total = totals;
     }
 
-    private int prod1variety1 = 11;
-    private int prod1variety2 = 12;
-    private int prod1variety3 = 13;
-    private int prod1variety4 = 14;
-
-
-    private int prod2variety1 = 21;
-    private int prod2variety2 = 22;
-    private int prod2variety3 = 23;
-    private int prod2variety4 = 24;
-
-    private int prod3variety1 = 31;
-    private int prod3variety2 = 32;
-    private int prod3variety3 = 33;
-    private int prod3variety4 = 34;
-
-    private int prod4variety1 = 41;
-    private int prod4variety2 = 42;
-    private int prod4variety3 = 43;
-    private int prod4variety4 = 44;
-
-    private int totvariety1 = 91;
-    private int totvariety2 = 92;
-    private int totvariety3 = 93;
-    private int totvariety4 = 94;
-
 
     public PricingTable() {
-
-        ArrayList <LinkedList> pricingTable = new ArrayList<LinkedList>();
 
         setupTableA();
     }
 
-    private void setupTableA() {
-        setProduct1(prod1variety1, prod1variety2, prod1variety3, prod1variety4);
-        setProduct2(prod2variety1, prod2variety2, prod2variety3, prod2variety4);
-        setProduct3(prod3variety1, prod3variety2, prod3variety3, prod3variety4);
-        setProduct4(prod4variety1, prod4variety2, prod4variety3, prod4variety4);
-        setTotal(totvariety1, totvariety2, totvariety3, totvariety4);
+    public PricingTable(PricingTable pricingTable) {
+
+        setupTableB();
+    }
+
+    public void setupTableA() {
+        setProduct1(prod1Var1, prod1Var2, prod1Var3, prod1Var4);
+        setProduct2(prod2Var1, prod2Var2, prod2Var3, prod2Var4);
+        setProduct3(prod3Var1, prod3Var2, prod3Var3, prod3Var4);
+        setProduct4(prod4Var1, prod4Var2, prod4Var3, prod4Var4);
+        setTotal(totVar1, totVar2, totVar3, totVar4);
+    }
+
+    private void setupTableB() {
+        setProduct1(prod1Var1 *exchangeRate, prod1Var2*exchangeRate, prod1Var3*exchangeRate, prod1Var4*exchangeRate);
+        setProduct2(prod2Var1 *exchangeRate, prod2Var2 *exchangeRate, prod2Var3 *exchangeRate, prod2Var4 *exchangeRate);
+        setProduct3(prod3Var1 *exchangeRate, prod3Var2 *exchangeRate, prod3Var3 *exchangeRate, prod3Var4 *exchangeRate);
+        setProduct4(prod4Var1 *exchangeRate, prod4Var2 *exchangeRate, prod4Var3 *exchangeRate, prod4Var4 *exchangeRate);
+        setTotal(totVar1 *exchangeRate, totVar2 *exchangeRate, totVar3 *exchangeRate, totVar4 *exchangeRate);
+    }
+
+    @Override
+    public String toString() {
+        return getProduct1Prices() + " " +
+                getProduct2Prices()  + " " +
+                getProduct3Prices()  + " " +
+                getProduct4Prices()  + " " +
+                getTotalPrices();
     }
 
 
@@ -139,16 +160,16 @@ public class PricingTable {
 
 
 
-
-
-
-
-
-
-
-
-
-
+//        ArrayList <LinkedList> aList = new ArrayList<LinkedList>();
+//        aList.add(product1);
+//        aList.add(product2);
+//        aList.add(product3);
+//        aList.add(product4);
+//        aList.add(total);
+//
+//        aList.set(0,total);
+//
+//        System.out.println(aList);
 
 
 //    // model the object as an array of linked lists
@@ -189,66 +210,63 @@ public class PricingTable {
 //
 //    }
 
-    @Override
-    public String toString() {
-        return product1 + " " + product2 + " " + product3 + " " + product4 + " " + total;
-    }
 
+//
+//
+//    public void printTable(ArrayList <LinkedList> pricingTable) {
+//
+//        System.out.println(pricingTable.toString());
+//
+//        pricingTable.forEach(System.out::println);
+//    }
 
-    public void printTable(ArrayList <LinkedList> pricingTable) {
-
-        System.out.println(pricingTable.toString());
-
-        pricingTable.forEach(System.out::println);
-    }
-
-
-    /**
-     * Creates a row for the table
-     *
-     * @param productNumber
-     * @param variety1
-     * @param variety2
-     * @param variety3
-     * @param variety4
-     */
-
-    public LinkedList setVarietyPricesForProduct(int productNumber,
-                                                      int variety1,
-                                                      int variety2,
-                                                      int variety3,
-                                                      int variety4) {
-
-        LinkedList productPrices = new LinkedList();
-
-        switch (productNumber) {
-            case 1:
-                productPrices.add(0,variety1);
-                productPrices.add(1,variety2);
-                productPrices.add(2,variety3);
-                productPrices.add(3,variety4);
-        }
-
-
-        return productPrices;
-    }
-
-
-    private LinkedList setProductPrices(int prodvariety1, int prodvariety2, int prodvariety3, int prodvariety4) {
-
-        LinkedList productPrices = new LinkedList();
-
-        productPrices.add(0,prodvariety1);
-        productPrices.add(1,prodvariety2);
-        productPrices.add(2,prodvariety3);
-        productPrices.add(3,prodvariety4);
-
-        return productPrices;
-    }
-
-    private void updateTableB() {
-
-    }
+//
+//    /**
+//     * Creates a row for the table
+//     *
+//     * @param productNumber
+//     * @param variety1
+//     * @param variety2
+//     * @param variety3
+//     * @param variety4
+//     */
+//
+//    public LinkedList setVarietyPricesForProduct(int productNumber,
+//                                                      int variety1,
+//                                                      int variety2,
+//                                                      int variety3,
+//                                                      int variety4) {
+//
+//        LinkedList productPrices = new LinkedList();
+//
+//        switch (productNumber) {
+//            case 1:
+//                productPrices.add(0,variety1);
+//                productPrices.add(1,variety2);
+//                productPrices.add(2,variety3);
+//                productPrices.add(3,variety4);
+//        }
+//
+//
+//        return productPrices;
+//    }
+//
+//
+//    private LinkedList setProductPrices(int prodvariety1, int prodvariety2, int prodvariety3, int prodvariety4) {
+//
+//        LinkedList productPrices = new LinkedList();
+//
+//        productPrices.add(0,prodvariety1);
+//        productPrices.add(1,prodvariety2);
+//        productPrices.add(2,prodvariety3);
+//        productPrices.add(3,prodvariety4);
+//
+//        return productPrices;
+//    }
+//
+//    private void updateTableB() {
+//
+//    }
 
 
 //    public PricingTable() {

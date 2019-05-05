@@ -1,6 +1,9 @@
 package com.company;
 
 import org.junit.Test;
+
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 
 public class JUnitTests {
@@ -8,7 +11,7 @@ public class JUnitTests {
     // Table A is initialised from some hardcoded values so this should always pass.
     // It could only break in the table could not be created in the first place.
     @Test
-    public void pricingTableAIsInitialisedCorrectly() {
+    public void pricingTableAIsInitialisedCorrectly() throws IOException {
         PricingTable pricingTableA = new PricingTable();
         String expectedTableAFromSetup =
                 "[10.0, 12.0, 14.0, 45.0] " +
@@ -21,7 +24,7 @@ public class JUnitTests {
     }
 
     @Test
-    public void pricingTableBIsInitialisedCorrectly() {
+    public void pricingTableBIsInitialisedCorrectly() throws IOException {
         PricingTable pricingTableA = new PricingTable();
         PricingTable pricingTableB = new PricingTable(pricingTableA);
         String expectedTableBFromSetup =

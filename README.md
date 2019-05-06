@@ -1,4 +1,4 @@
-Part 2
+## Part 2
 Table A below represents an example of a pricing table containing a number of products and their varieties.
 The prices of these products are in pounds sterling.
 
@@ -28,3 +28,6 @@ Total     120       130.5     57        67.5
 Exercise: write a test to check the correctness of Table B in relation to Table A. Consideration should be given
 to the variety of possible errors conditions within other real-world data, and how these can be tested. We are
 not concerned solely with whether or not the test works, but also with how tidy, structured and robust it is.
+
+![picture](./report_pic.png)
+

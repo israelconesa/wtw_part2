@@ -1,10 +1,13 @@
 package com.company;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.LinkedList;
 
 import static com.company.PricingTable.updateTableA;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 
 /*
@@ -14,7 +17,7 @@ not concerned solely with whether or not the test works, but also with how tidy,
 
 Some scenarios are not covered because the way that I modelled the tables, for example;
 
-- Updating variety price on Table A with a non-numerical character. Java expects a double so it won't allow it.
+- Updating variety price on Table A with a non-numerical character. Java expects doubles for prices so it won't allow it.
 - Updating variety price on Table A with a null value. Same as above.
 
 Find below the tests that I could devise for the Pricing Tables functionality.
@@ -61,9 +64,6 @@ public class JUnitTests {
 
         updateTableA(pricingTableA, pricingTableB, newValues);
 
-//        System.out.println(pricingTableA);
-//        System.out.println(pricingTableB);
-
         String expectedLatestTableBPrices =
                 "[15.0, 18.0, 21.0, 67.5] " +
                 "[9.0, 9.0, 9.0, null] " +
@@ -87,9 +87,6 @@ public class JUnitTests {
 
         updateTableA(pricingTableA, pricingTableB, newValues);
 
-//        System.out.println(pricingTableA);
-//        System.out.println(pricingTableB);
-
         String expectedTableATotals = "[66.0, 78.0, 20.0, 45.0]";
         String expectedTableBTotals = "[99.0, 117.0, 30.0, 67.5]";
 
@@ -106,15 +103,12 @@ public class JUnitTests {
         newValues.add(6.0);
         newValues.add(6.0);
         newValues.add(6.0);
-        newValues.add(6.0);
-        //The following additions to the list does not break the test
+        // The following additions to the list does not break the test. The model only allows
+        // entering three prices to product2. Any subsequent prices added to the list are ignored.
         newValues.add(111.0);
         newValues.add(111.0);
 
         updateTableA(pricingTableA, pricingTableB, newValues);
-
-//        System.out.println(pricingTableA);
-//        System.out.println(pricingTableB);
 
         String expectedTableBAfterTableAUpdatedWithTooManyValues =
                 "[15.0, 18.0, 21.0, 67.5] " +
@@ -124,6 +118,43 @@ public class JUnitTests {
                 "[99.0, 117.0, 30.0, 67.5]";
 
         assertEquals(pricingTableB.toString(), expectedTableBAfterTableAUpdatedWithTooManyValues);
+    }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void pricingTablesAreNotUpdatedWhenUsingNegativePrices() {
+
+        PricingTable pricingTableA = new PricingTable();
+        PricingTable pricingTableB = new PricingTable(pricingTableA);
+        LinkedList<Double> newValues = new LinkedList<>();
+        newValues.add(-6.0);
+        newValues.add(6.0);
+        newValues.add(6.0);
+
+        String msg = "Unable to update prices to less or equal 0. Leaving Pricing Tables unchanged...";
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(is(msg));
+
+        updateTableA(pricingTableA, pricingTableB, newValues);
+    }
+
+    @Test
+    public void pricingTablesAreNotUpdatedWhenUsingZeroAsPrices() {
+
+        PricingTable pricingTableA = new PricingTable();
+        PricingTable pricingTableB = new PricingTable(pricingTableA);
+        LinkedList<Double> newValues = new LinkedList<>();
+        newValues.add(0.0);
+        newValues.add(6.0);
+        newValues.add(6.0);
+
+        String msg = "Unable to update prices to less or equal 0. Leaving Pricing Tables unchanged...";
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(is(msg));
+
+        updateTableA(pricingTableA, pricingTableB, newValues);
     }
 }
 

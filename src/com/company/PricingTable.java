@@ -134,15 +134,26 @@ public class PricingTable {
     // further to change a single price for any product.
     static void updateTableA(PricingTable tableA, PricingTable tableB, LinkedList<Double> newPriceListForProduct2) {
 
-        tableA.setProduct2(newPriceListForProduct2.get(0),
-                           newPriceListForProduct2.get(1),
-                           newPriceListForProduct2.get(2));
-        tableA.setTotal();
+        // Protecting against negative and 0 values. It will throw an exception and leave TableA/B unchanged.
+        if (newPriceListForProduct2.get(0) <= 0 ||
+                newPriceListForProduct2.get(1) <= 0 ||
+                    newPriceListForProduct2.get(2) <= 0) {
+            String msg = "Unable to update prices to less or equal 0. Leaving Pricing Tables unchanged...";
+            System.out.println(msg);
+            throw new IllegalArgumentException(msg);
 
-        tableB.setProduct2(tableA.getProduct2Prices().get(0)*exchangeRate,
-                tableA.getProduct2Prices().get(1)*exchangeRate,
-                tableA.getProduct2Prices().get(2)*exchangeRate);
-        tableB.setTotal();
+        } else {
+
+            tableA.setProduct2(newPriceListForProduct2.get(0),
+                    newPriceListForProduct2.get(1),
+                    newPriceListForProduct2.get(2));
+            tableA.setTotal();
+
+            tableB.setProduct2(tableA.getProduct2Prices().get(0) * exchangeRate,
+                    tableA.getProduct2Prices().get(1) * exchangeRate,
+                    tableA.getProduct2Prices().get(2) * exchangeRate);
+            tableB.setTotal();
+        }
     }
 
     // Overriding this implementation so I get a proper view of the table rows

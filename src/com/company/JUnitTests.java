@@ -17,11 +17,11 @@ not concerned solely with whether or not the test works, but also with how tidy,
 
 Some scenarios are not covered because the way that I modelled the tables, for example;
 
-- Updating variety price on Table A with a non-numerical character. Java expects doubles for prices so it won't allow it.
-- Updating variety price on Table A with a null value. Same as above.
+- Updating variety price on Table A with a non-numerical character -> Java expects doubles for prices so it won't allow it.
+- Updating variety price on Table A with a null value -> Same as above.
+- Updating variety price on Table A for shaded areas -> The method that updates product prices (rows) prevents that.
 
 Find below the tests that I could devise for the Pricing Tables functionality.
-
  */
 
 public class JUnitTests {
@@ -54,7 +54,7 @@ public class JUnitTests {
     }
 
     @Test
-    public void pricingTableBisUpdatedWithChangesToTableA() {
+    public void pricingTableBIsUpdatedWithChangesToTableA() {
         PricingTable pricingTableA = new PricingTable();
         PricingTable pricingTableB = new PricingTable(pricingTableA);
         LinkedList<Double> newValues = new LinkedList<>();
@@ -103,7 +103,7 @@ public class JUnitTests {
         newValues.add(6.0);
         newValues.add(6.0);
         newValues.add(6.0);
-        // The following additions to the list does not break the test. The model only allows
+        // The following additions to the list do not break the test. The model only allows
         // entering three prices to product2. Any subsequent prices added to the list are ignored.
         newValues.add(111.0);
         newValues.add(111.0);

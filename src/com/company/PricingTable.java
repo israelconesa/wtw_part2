@@ -1,37 +1,10 @@
 package com.company;
 
-import java.io.*;
 import java.util.*;
-
-/*
-I'm modelling the tables as objects comprising lists of prices for each product and the totals, i.e. rows.
-I could initialise both tables but I had a hard time forcing them to communicate with each other as they
-would have separate copies of the prices.
-In the end, I decided to use a txt file as a source of truth for Table A which will allow Table B to read
-from to update itself.
- */
-
 
 public class PricingTable {
 
-    private double prod1Var1 = 10;
-    private double prod1Var2 = 12;
-    private double prod1Var3 = 14;
-    private double prod1Var4 = 45;
-
-    private double prod2Var1 = 20;
-    private double prod2Var2 = 15;
-    private double prod2Var3 = 24;
-
-    private double prod3Var1 = 22;
-    private double prod3Var2 = 60;
-
-    private double prod4Var1 = 28;
-
-    private double totVar1 = 80;
-    private double totVar2 = 87;
-    private double totVar3 = 38;
-    private double totVar4 = 45;
+    private static double exchangeRate = 1.5;
 
     private LinkedList<Double> product1 = new LinkedList<>();
     private LinkedList<Double> product2 = new LinkedList<>();
@@ -103,53 +76,76 @@ public class PricingTable {
         this.product4 = product;
     }
 
-    private void setTotal(double totvariety1,
-                          double totvariety2,
-                          double totvariety3,
-                          double totvariety4) {
+    // Calculating the totals for each variety
+    private void setTotal() {
         LinkedList<Double> totals = new LinkedList<>();
-        totals.add(0,totvariety1);
-        totals.add(1,totvariety2);
-        totals.add(2,totvariety3);
-        totals.add(3,totvariety4);
+        totals.add(0,product1.get(0) + product2.get(0) + product3.get(0) + product4.get(0));
+        totals.add(1,product1.get(1) + product2.get(1) + product3.get(1));
+        totals.add(2,product1.get(2) + product2.get(2));
+        totals.add(3, product1.get(3));
         this.total = totals;
     }
 
-    // When instantiating Table A provide starting values and write them to file
-    public PricingTable() throws IOException {
+    // This is the constructor for Table A initialised with the prices from the example.
+    PricingTable() {
 
-        setupTableA();
-    }
+        double prod1Var1 = 10;
+        double prod1Var2 = 12;
+        double prod1Var3 = 14;
+        double prod1Var4 = 45;
 
-    // When instantiating Table B get the values from Table A and use the exchange rate.
-    // It won't read the values from Table A from file yet.
-    public PricingTable(PricingTable pricingTable) throws FileNotFoundException {
+        double prod2Var1 = 20;
+        double prod2Var2 = 15;
+        double prod2Var3 = 24;
 
-        setupTableB();
-    }
+        double prod3Var1 = 22;
+        double prod3Var2 = 60;
 
-    private void setupTableA() throws IOException{
+        double prod4Var1 = 28;
+
         setProduct1(prod1Var1, prod1Var2, prod1Var3, prod1Var4);
         setProduct2(prod2Var1, prod2Var2, prod2Var3);
         setProduct3(prod3Var1, prod3Var2);
         setProduct4(prod4Var1);
-        setTotal(totVar1, totVar2, totVar3, totVar4);
-
-        writePricingTableAToFile();
+        setTotal();
     }
 
-    private void setupTableB() throws FileNotFoundException {
-        double exchangeRate = 1.5;
+    // This is the constructor for Table B and takes a PricingTable object as a parameter (Table A, at runtime).
+    // It will read the initial prices from Table A and add them to Table B with the exchange rates.
+    PricingTable(PricingTable pricingTable) {
 
-        setProduct1(prod1Var1 * exchangeRate, prod1Var2 * exchangeRate, prod1Var3 * exchangeRate, prod1Var4 * exchangeRate);
-        setProduct2(prod2Var1 * exchangeRate, prod2Var2 * exchangeRate, prod2Var3 * exchangeRate);
-        setProduct3(prod3Var1 * exchangeRate, prod3Var2 * exchangeRate);
-        setProduct4(prod4Var1 * exchangeRate);
-        setTotal(totVar1 * exchangeRate, totVar2 * exchangeRate, totVar3 * exchangeRate, totVar4 * exchangeRate);
+        setProduct1(pricingTable.getProduct1Prices().get(0) * exchangeRate,
+                    pricingTable.getProduct1Prices().get(1) * exchangeRate,
+                    pricingTable.getProduct1Prices().get(2) * exchangeRate,
+                    pricingTable.getProduct1Prices().get(3) * exchangeRate);
 
-        readCurrentPricingTableAFromFile();
+        setProduct2(pricingTable.getProduct2Prices().get(0) * exchangeRate,
+                    pricingTable.getProduct2Prices().get(1) * exchangeRate,
+                    pricingTable.getProduct2Prices().get(2) * exchangeRate);
+
+        setProduct3(pricingTable.getProduct3Prices().get(0) * exchangeRate,
+                    pricingTable.getProduct3Prices().get(1) * exchangeRate);
+
+        setProduct4(pricingTable.getProduct4Prices().get(0) * exchangeRate);
+        setTotal();
     }
 
+    // For simplicity, updates are done by the same row (product1 prices). If needed it could be deconstructed
+    // further to change a single price for any product.
+    static void updateTableA(PricingTable tableA, PricingTable tableB, LinkedList<Double> newPriceListForProduct1) {
+
+        tableA.setProduct1(newPriceListForProduct1.get(0),
+                           newPriceListForProduct1.get(1),
+                           newPriceListForProduct1.get(2),
+                           newPriceListForProduct1.get(3));
+        tableA.setTotal();
+
+        tableB.setProduct1(tableA.getProduct1Prices().get(0)*exchangeRate,
+                tableA.getProduct1Prices().get(1)*exchangeRate,
+                tableA.getProduct1Prices().get(2)*exchangeRate,
+                tableA.getProduct1Prices().get(3)*exchangeRate);
+        tableB.setTotal();
+    }
 
     // Overriding this implementation so I get a proper view of the table rows
     @Override
@@ -160,66 +156,4 @@ public class PricingTable {
                 getProduct4Prices()  + " " +
                 getTotalPrices();
     }
-
-
-    // TODO: I'm hardcoding the file location in Linux path format. Needs making it platform agnostic.
-    private void writePricingTableAToFile() throws IOException
-    {
-        String product1Prices = getProduct1Prices().toString();
-        String product2Prices = getProduct2Prices().toString();
-        String product3Prices = getProduct3Prices().toString();
-        String product4Prices = getProduct4Prices().toString();
-        String totals = getTotalPrices().toString();
-
-        BufferedWriter writer = new BufferedWriter(new FileWriter("./samplefile1.txt"));
-        writer.write(product1Prices);
-        writer.newLine();
-        writer.write(product2Prices);
-        writer.newLine();
-        writer.write(product3Prices);
-        writer.newLine();
-        writer.write(product4Prices);
-        writer.newLine();
-        writer.write(totals);
-        writer.close();
-    }
-
-    // TODO: Again needs making it platform agnostic.
-    private List<String> readCurrentPricingTableAFromFile() throws FileNotFoundException {
-        File file = new File("./samplefile1.txt");
-        Scanner sc = new Scanner(file);
-        List<String> currentPricingTableA = new ArrayList<String>();
-
-        while (sc.hasNextLine()) {
-            currentPricingTableA.add(sc.nextLine());
-        }
-        sc.close();
-
-//        System.out.println(currentPricingTableA);
-
-//        Iterator i = currentPricingTableA.iterator();
-//        while (i.hasNext()) {
-//            System.out.println(i.next());
-//        }
-
-        return currentPricingTableA;
-    }
-
-    public void updateProduct1TableA(double prod1variety1,
-                                     double prod1variety2,
-                                     double prod1variety3,
-                                     double prod1variety4) throws IOException {
-
-
-        setProduct1(prod1variety1,prod1variety2,prod1variety3,prod1variety4);
-
-        writePricingTableAToFile();
-    }
-
-    // update Table B
-    public void something() {
-
-//        pricingTableB
-    }
-
 }

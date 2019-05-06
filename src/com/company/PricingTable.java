@@ -6,11 +6,11 @@ public class PricingTable {
 
     private static double exchangeRate = 1.5;
 
-    private LinkedList<Double> product1 = new LinkedList<>();
-    private LinkedList<Double> product2 = new LinkedList<>();
-    private LinkedList<Double> product3 = new LinkedList<>();
-    private LinkedList<Double> product4 = new LinkedList<>();
-    private LinkedList<Double> total = new LinkedList<>();
+    private LinkedList<Double> product1;
+    private LinkedList<Double> product2;
+    private LinkedList<Double> product3;
+    private LinkedList<Double> product4;
+    private LinkedList<Double> total;
 
     private LinkedList<Double> getProduct1Prices() {
         return this.product1;
@@ -28,7 +28,7 @@ public class PricingTable {
         return this.product4;
     }
 
-    private LinkedList<Double> getTotalPrices() {
+    public LinkedList<Double> getTotalPrices() {
         return this.total;
     }
 
@@ -130,20 +130,18 @@ public class PricingTable {
         setTotal();
     }
 
-    // For simplicity, updates are done by the same row (product1 prices). If needed it could be deconstructed
+    // For simplicity, updates are done by the same row (product2 prices). If needed it could be deconstructed
     // further to change a single price for any product.
-    static void updateTableA(PricingTable tableA, PricingTable tableB, LinkedList<Double> newPriceListForProduct1) {
+    static void updateTableA(PricingTable tableA, PricingTable tableB, LinkedList<Double> newPriceListForProduct2) {
 
-        tableA.setProduct1(newPriceListForProduct1.get(0),
-                           newPriceListForProduct1.get(1),
-                           newPriceListForProduct1.get(2),
-                           newPriceListForProduct1.get(3));
+        tableA.setProduct2(newPriceListForProduct2.get(0),
+                           newPriceListForProduct2.get(1),
+                           newPriceListForProduct2.get(2));
         tableA.setTotal();
 
-        tableB.setProduct1(tableA.getProduct1Prices().get(0)*exchangeRate,
-                tableA.getProduct1Prices().get(1)*exchangeRate,
-                tableA.getProduct1Prices().get(2)*exchangeRate,
-                tableA.getProduct1Prices().get(3)*exchangeRate);
+        tableB.setProduct2(tableA.getProduct2Prices().get(0)*exchangeRate,
+                tableA.getProduct2Prices().get(1)*exchangeRate,
+                tableA.getProduct2Prices().get(2)*exchangeRate);
         tableB.setTotal();
     }
 

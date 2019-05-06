@@ -15,7 +15,7 @@ The value in each cell in the bottom row is equal to the sum of the values in th
 
 > Table A - Prices in Sterling
 
->|   | Variety 1  | Variety 2  | Variety 3  | Variety 4 |
+|   | Variety 1  | Variety 2  | Variety 3  | Variety 4 |
 |---|---|---|---|---|
 | Product1 | 10  | 12  | 14  | 45 |
 | Product2 | 20  | 15  | 24  |   |
@@ -25,7 +25,7 @@ The value in each cell in the bottom row is equal to the sum of the values in th
 
 > Table B - Prices in Euro
 
->|   | Variety 1  | Variety 2  | Variety 3  | Variety 4 |
+|   | Variety 1  | Variety 2  | Variety 3  | Variety 4 |
 |---|---|---|---|---|
 | Product1 | 15  | 18  | 21  | 67.5 |
 | Product2 | 30  | 22.5  | 36  |   |

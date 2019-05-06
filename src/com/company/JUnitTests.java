@@ -20,6 +20,7 @@ Some scenarios are not covered because the way that I modelled the tables, for e
 - Updating variety price on Table A with a non-numerical character -> Java expects doubles for prices so it won't allow it.
 - Updating variety price on Table A with a null value -> Same as above.
 - Updating variety price on Table A for shaded areas -> The method that updates product prices (rows) prevents that.
+- TODO: If precision is important a change to BigDecimal for decimals might be considered.
 
 Find below the tests that I could devise for the Pricing Tables functionality.
  */
